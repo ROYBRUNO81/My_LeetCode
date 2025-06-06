@@ -1,4 +1,4 @@
-def exist(self, board, word):
+def exist(board, word):
     """
     :type board: List[List[str]]
     :type word: str
@@ -29,20 +29,25 @@ def exist(self, board, word):
                 sources.append(v)
     
     def DFS_visit(v, i):
+        if i == end:
+            return True
         for u in Adj_list[v]:
             if u[0] == word[i] and visited[u] == False:
-                i += 1
-                visited[u] == True
-                if i == end:
-                    return true
-            DFS_visit(u, i)
-        visited[v] == False
+                visited[u] = True
+                if DFS_visit(u, i+1) == True:
+                    return True
+                visited[v] = False
+        return False
 
-    
+
     for s in sources:
-        visited[s] == True
-        i = 1
-        DFS_visit(s, i)
+        visited[s] = True
+        if DFS_visit(s, 1):
+            return True
+        visited[s] = False
 
+    return False
 
-    return len(Adj_list[board[0][0]])
+board = [["A","B","C","E"],["S","F","E","S"],["A","D","E","E"]]
+word = "ABCESEEEFS"
+print(exist(board, word))
